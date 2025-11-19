@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Nifty Stock Price Prediction</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <!-- Bootstrap CSS -->
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+    <link href="../static/css/style.css" rel="stylesheet" />
+    <link href="../static/img/favicon.png" rel="icon" />
+    <link href="../static/img/apple-touch-icon.png" rel="apple-touch-icon" />
+    <link
+      href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700|Raleway:300,400,500,700,900"
+      rel="stylesheet"
+    />
+
+    <!-- Vendor CSS Files -->
+    <link href="../static/vendor/icofont/icofont.min.css" rel="stylesheet" />
+    <link
+      href="../static/vendor/animate.css/animate.min.css"
+      rel="stylesheet"
+    />
+    <link
+      href="../static/vendor/font-awesome/css/font-awesome.min.css"
+      rel="stylesheet"
+    />
+    <link
+      href="../static/vendor/nivo-slider/css/nivo-slider.css"
+      rel="stylesheet"
+    />
+    <link
+      href="../static/vendor/owl.carousel/assets/owl.carousel.min.css"
+      rel="stylesheet"
+    />
+    <link href="../static/vendor/venobox/venobox.css" rel="stylesheet" />
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <style>
+      html,
+      body {
+        height: 100%;
+        margin: 0;
+        padding: 0;
+        font-family: "Segoe UI", sans-serif;
+        color: #fff;
+        position: relative;
+      }
+
+      .video-background {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100vw;
+        height: 100vh;
+        object-fit: cover;
+        z-index: -2;
+      }
+
+      .overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100vw;
+        height: 100vh;
+        background: rgba(0, 0, 0, 0.5);
+        z-index: -1;
+      }
+
+      .navbar-video {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100vw;
+        height: 100%;
+        object-fit: cover;
+        z-index: -1;
+      }
+
+      .navbar {
+        background-color: transparent !important;
+      }
+
+      .login-card {
+        background: rgba(255, 255, 255, 0.95);
+        padding: 30px;
+        border-radius: 15px;
+        box-shadow: 0 0 20px rgba(0, 0, 0, 0.3);
+        margin: 50px auto;
+        max-width: 400px;
+      }
+
+      #main-container {
+        position: relative;
+        z-index: 1;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        min-height: 100vh;
+      }
+
+      .card {
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+        border-radius: 15px;
+        padding: 30px;
+        background: #ffffffcc;
+        color: #333;
+        width: 100%;
+        max-width: 700px;
+        z-index: 2;
+      }
+
+      h2 {
+        font-size: 2rem;
+      }
+
+      .form-label,
+      .form-select,
+      .btn {
+        font-size: 1.2rem;
+      }
+
+      .result-box {
+        background: #f9f9f9;
+        border-radius: 12px;
+        padding: 25px;
+        box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+        font-size: 1.2rem;
+      }
+
+      #loading-spinner {
+        display: none;
+        text-align: center;
+        margin-top: 20px;
+      }
+    </style>
+  </head>
+
+  <body data-spy="scroll" data-target="#navbar-example">
+    <!-- 🔄 Background Video -->
+    <video autoplay muted loop class="video-background">
+      <source src="../static/video/bg1.mp4" type="video/mp4" />
+      Your browser does not support the video tag.
+    </video>
+    <div class="overlay"></div>
+
+    <!-- ======= Header ======= -->
+    <header id="header" class="fixed-top">
+      <nav class="navbar navbar-expand-lg navbar-dark shadow-sm">
+        <video autoplay muted loop playsinline class="navbar-video">
+          <source src="../static/video/bg2.mp4" type="video/mp4" />
+        </video>
+
+        <a
+          class="navbar-brand fw-bold text-uppercase position-relative ms-4"
+          href="{{url_for('first')}}"
+        >
+          <span style="color: #ffc107">Stock</span>Market Prediction
+        </a>
+
+        <button
+          class="navbar-toggler position-relative me-3"
+          type="button"
+          data-bs-toggle="collapse"
+          data-bs-target="#navbarNav"
+        >
+          <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div
+          class="collapse navbar-collapse justify-content-end position-relative me-4"
+          id="navbarNav"
+        >
+          <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+            <li class="nav-item">
+              <a
+                class="nav-link fw-semibold text-white px-3"
+                href="{{url_for('first')}}"
+                >Home</a
+              >
+            </li>
+            <li class="nav-item">
+              <a
+                class="nav-link fw-semibold text-white px-3"
+                href="{{url_for('login')}}"
+                >Login</a
+              >
+            </li>
+            <li class="nav-item">
+              <a
+                class="nav-link fw-semibold text-white px-3"
+                href="{{url_for('abstract')}}"
+                >About</a
+              >
+            </li>
+            <li class="nav-item">
+              <a
+                class="nav-link fw-semibold text-white px-3"
+                href="{{url_for('index')}}"
+                >Prediction</a
+              >
+            </li>
+          </ul>
+        </div>
+      </nav>
+    </header>
+
+    <div class="container">
+      <div class="slider-content">
+        <div
+          class="layer-1-1 hidden-xs animate__animated animate__slideInDown"
+          data-wow-duration="2s"
+        >
+          <h2 class="title1">Predicting Stock Market Trends</h2>
+        </div>
+        <div
+          class="layer-1-2 animate__animated animate__fadeIn"
+          data-wow-duration="2s"
+        >
+          <h1 class="title2">
+            Using Machine Learning and Deep Learning Algorithms
+          </h1>
+        </div>
+      </div>
+    </div>
+
+
+
+<main id="main">
+      <!-- ======= Abstract Section ======= -->
+      <div id="about" class="about-area area-padding">
+        <div class="container">
+          <div class="row">
+            <div class="col-md-12">
+              <div class="section-headline text-center">
+                <h2>About</h2>
+              </div>
+              <p>
+                The nature of stock market movement has always been ambiguous
+                for investors because of various influential factors. This study
+                aims to significantly reduce the risk of trend prediction with
+                machine learning and deep learning algorithms.
+                <br /><br />
+                Four stock market groups — diversified financials, petroleum,
+                non-metallic minerals, and basic metals — from the Tehran stock
+                exchange are chosen for experimental evaluations.
+                <br /><br />
+                This study compares nine machine learning models (Decision Tree,
+                Random Forest, Adaptive Boosting (Adaboost), eXtreme Gradient
+                Boosting (XGBoost), Support Vector Classifier (SVC), Naïve
+                Bayes, K-Nearest Neighbors (KNN), Logistic Regression, and
+                Artificial Neural Network (ANN)) and two powerful deep learning
+                methods (Recurrent Neural Network (RNN) and Long Short-Term
+                Memory (LSTM)).
+                <br /><br />
+                Ten technical indicators from ten years of historical data are
+                used as inputs. Two approaches are employed: using indicators as
+                continuous values, and converting them to binary values. Each
+                model is evaluated using three performance metrics. Results show
+                that for continuous data, RNN and LSTM outperform others. In
+                binary data evaluation, although the performance gap narrows,
+                deep learning methods still yield the best results.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- End Abstract Section -->
+    </main>
+    <!-- End #main -->
+
+    <!-- Footer -->
+    <footer>
+      <div class="footer-area-bottom py-3">
+        <div class="container text-center">
+          <p>&copy; 2025 Stock Market Predictor. All Rights Reserved.</p>
+        </div>
+      </div>
+    </footer>
+
+    <!-- Chart.js Logic -->
+    {% if last_5_dates and last_5_prices %}
+    <script>
+      const ctx = document.getElementById("last5Chart").getContext("2d");
+      new Chart(ctx, {
+        type: "line",
+        data: {
+          labels: {{ last_5_dates | tojson }},
+          datasets: [{
+            label: "Close Price",
+            data: {{ last_5_prices | tojson }},
+            backgroundColor: "rgba(54, 162, 235, 0.3)",
+            borderColor: "rgba(54, 162, 235, 1)",
+            borderWidth: 2,
+            tension: 0.3,
+            fill: true
+          }]
+        },
+        options: {
+          responsive: true,
+          plugins: { legend: { display: false }},
+          scales: { y: { beginAtZero: false }}
+        }
+      });
+    </script>
+    {% endif %}
+
+    <script>
+      function showLoading() {
+        document.getElementById("loading-spinner").style.display = "block";
+      }
+    </script>
+    <script src="../static/js/main.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+  </body>
+</html>
